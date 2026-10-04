@@ -2,7 +2,7 @@
 import { NextRequest } from 'next/server';
 import { isbot } from 'isbot';
 
-const PRERENDER_URL = process.env.PRERENDER_URL; // e.g. https://render.yourdomain.com
+const PRERENDER_URL = process.env.PRERENDER_URL?.replace(/\/+$/, ''); // e.g. https://render.yourdomain.com
 const PRERENDER_API_KEY = process.env.PRERENDER_API_KEY;
 const PRERENDER_TIMEOUT_MS = 25_000; // a cache MISS renders in a headless browser and takes a few seconds
 
