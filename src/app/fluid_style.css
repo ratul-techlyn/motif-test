@@ -1,0 +1,240 @@
+
+:root {
+    --container-widget-width: 88%;
+}
+
+/* Define the variable in a media query */
+@media (min-width: 768px) {
+    .page_section {
+      --content-width: 70vw;
+    }
+  }
+
+/*
+@layer components {
+
+    .page_section {
+      @apply w
+    }
+} */
+
+
+
+/* banner text image start */
+@keyframes hero_text_img_ANI {
+    0% {
+      background-image: url("/assets/home/hero/hero1.webp");
+    }
+    25% {
+      background-image: url("/assets/home/hero/hero2.webp");
+    }
+    50% {
+      background-image: url("/assets/home/hero/hero3.webp");
+    }
+    75% {
+      background-image: url("/assets/home/hero/hero4.webp");
+    }
+    100% {
+      background-image: url("/assets/home/hero/hero1.webp"); /* Loop back to the first image */
+    }
+}
+.hero_ani_text {
+    animation: hero_text_img_ANI 10s infinite;
+    background-size: cover;
+    background-position: center;
+  }
+
+
+
+  @keyframes hero_img_index_ani_1 {
+    0%   { --img-index: 1; }
+    25%  { --img-index: 2; }
+    50%  { --img-index: 3; }
+    75%  { --img-index: 4; }
+    100% { --img-index: 1; }
+  }
+
+  .hero_img_index_ani_1 {
+    animation: hero_text_img_ANI 10s infinite;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    /* animate the index as CSS variable */
+    animation-name: hero_img_index_ani, hero_text_img_ANI;
+    animation-duration: 10s, 10s;
+    animation-timing-function: steps(1), linear;
+    animation-iteration-count: infinite, infinite;
+  }
+
+  .hero_img_index_ani_1::before {
+    content: attr(data-image);
+    position: absolute;
+    top: -9999px; /* hide it */
+    visibility: hidden;
+  }
+
+
+
+  /* __rolling text start  */
+  /* Keyframe Animation for text rotation */
+  @keyframes rollingTextAnimation {
+    0%,100% {
+        transform: translateY(0);
+    }
+    20% {
+        transform: translateY(-25%);
+    }
+    40% {
+        transform: translateY(-50%);
+    }
+    65% {
+        transform: translateY(-75%);
+    }
+    80% {
+        transform: translateY(-100%);
+    }
+}
+
+.rolling-texts {
+    display: block;
+    animation: rollingTextAnimation 10s infinite ease-in-out;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.rolling-texts span {
+    display: block;
+}
+
+.inner-circle.of-o {
+    display: inline-block;
+    transition: transform 0.5s ease;
+    transform-origin: center;
+}
+
+.circle {
+    border-radius: 50%;
+}
+
+.rolling-text-container {
+    display: inline-flex;
+    align-items: center;
+}
+
+.inner-circle-container {
+    position: relative;
+    margin-right: 0.5rem;
+}
+
+.rolling-text-inner-container {
+    display: inline-block;
+    overflow: hidden;
+}
+
+.roll_fixed_word {
+    margin-left: 0.5rem;
+}
+
+
+/* stretch O text  */
+/* Animation for the "O" stretching based on rolling text */
+@keyframes stretchO {
+  0%, 100% {
+    width: 4.9rem; /* FASHION (wide word) */
+  }
+  20% {
+    width: 5.4rem; /* BEAUTY */
+  }
+  40% {
+    width: 5.4rem; /* LUXURY */
+  }
+  65% {
+    width: 3rem; /* LIFESTYLE */
+  }
+  80% {
+    width: 2.8rem; /* Optional overshoot */
+  }
+}
+
+@keyframes stretchOFContainer {
+  0%, 100% {
+    width: 40%; /* FASHION */
+  }
+  20% {
+    width: 44%; /* BEAUTY */
+  }
+  40% {
+    width: 44%; /* LUXURY */
+  }
+  65% {
+    width: 29%; /* LIFESTYLE */
+  }
+  80% {
+    width: 27%; /* loop back smooth */
+  }
+}
+
+.inner-circle-container{
+  margin: 0;
+}
+.rolling-text-container{
+  width: 83%;
+  text-align: right;
+  display: block;
+  position: relative;
+}
+.of-container{
+  /* display: inline-block; */
+  display: flex;
+  position: absolute;
+  left: 0;
+  /* width: 44%; */
+  animation: stretchOFContainer 10s infinite ease-in-out;
+}
+
+.inner-circle-container .circle {
+  display: inline-block;
+  height: 1.8rem;
+  margin-bottom: 4px;
+  border: 6px solid currentColor;
+  border-radius: 9999px; /* full circle */
+  transition: width 0.5s ease;
+  /* animation: stretchO 10s infinite ease-in-out; */
+  background: transparent;
+  vertical-align: middle;
+  animation: stretchO 10s infinite ease-in-out;
+}
+
+
+/* Apply this animation to the "O" */
+.inner-circle.of-o {
+  display: inline-block;
+  transform-origin: center;
+  animation: stretchO 10s infinite ease-in-out;
+}
+
+
+
+/* test roll st */
+
+/* test roll ed */
+
+  /* __rolling text end  */
+
+/* banner text image end */
+
+
+.jb_banner_new .anm-hero-pera{
+  width: 100%;
+  max-width: 75%;
+}
+
+@media only screen and (max-width: 768px) {
+  .custom_jb_banner{
+    width: 100%;
+  }
+
+  .jb_banner_new .anm-hero-pera{
+    max-width: 100%;
+  }
+}

@@ -1,0 +1,36 @@
+.cursorLabelContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+  pointer-events: none;
+  transform: translate(-50%, -50%);
+}
+
+.glassDot {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  border: 0.5px solid rgba(255, 255, 255, 0);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 8px 24px rgba(255, 165, 0, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.5);
+  opacity: 0;
+  transition: all 0.2s ease;
+}
+
+.labelText {
+  color: rgb(255, 231, 215);
+  font-family: default;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 600;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}

@@ -1,0 +1,50 @@
+# Robots.txt for wemotif.com
+# Prerender.io integration: Bots are redirected to prerender.io service for SEO
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+# Prerender.io compatible bots
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
+User-agent: Discordbot
+Allow: /
+
+User-agent: *
+Disallow: /api/
+Disallow: /404
+Disallow: /server-error
+Disallow: /wp-json/
+Disallow: /wp-admin/
+Disallow: /cgi-bin/
+Disallow: /*?*
+
+Allow: /childs/wp-content/uploads/
+
+Sitemap: https://wemotif.com/motif-sitemap.xml
