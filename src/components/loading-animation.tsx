@@ -249,7 +249,7 @@ export default function LoadingAnimation({
   const lines = texts[currentTextIndex].split("\n");
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white overflow-hidden">
+    <div no-bot-load="true" className="fixed inset-0 z-50 flex items-center justify-center bg-black text-white overflow-hidden">
       {showCubes && (
         <div ref={cubesRef} className="cubes absolute inset-0">
           {Object.entries(cubesData).map(([,], index) => (
