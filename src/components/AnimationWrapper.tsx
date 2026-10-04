@@ -197,7 +197,7 @@ export default function AnimationWrapper({ children, isBot }: Props) {
 
   return (
     <>
-      {showLoading && <LoadingAnimation onComplete={handleLoadingComplete} />}
+      {!isBot && showLoading && <LoadingAnimation onComplete={handleLoadingComplete} />}
       <TopBar />
       <div className="bg-primary w-full min-h-screen text-typo-mute font-Clash">
         <FloatingSealPortal />

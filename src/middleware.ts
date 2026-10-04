@@ -3,7 +3,8 @@ import type { NextRequest } from "next/server";
 import {
   shouldPrerender,
   shouldIgnoreRequest,
-  fetchPrerenderedHTML
+  fetchPrerenderedHTML,
+  isBotRequest
 } from "./lib/prerender-middleware";
 
 // Global middleware with pre-render service integration and bot detection (see brain/SETUP.md)
@@ -13,6 +14,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Tell the layout whether this is a bot (read as `x-is-bot` in app/(public)/layout.tsx).
+  // Includes the pre-render service's own headless browser, so its snapshot skips the loading animation.
+  const isBot = !!request.headers.get("x-render-request") || isBotRequest(request);
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set("x-is-bot", String(isBot));
+
   // Determine if this request should be prerendered
   const shouldUsePrerender = shouldPrerender(request);
 
@@ -20,12 +27,12 @@ export async function middleware(request: NextRequest) {
 
   // Short-circuit for regular users - optimize for user traffic first
   if (!shouldUsePrerender) {
-    const response = NextResponse.next();
+    const response = NextResponse.next({ request: { headers: requestHeaders } });
 
     // Smart tiered caching: 1hr for users vs previous aggressive 1-year caching
     response.headers.set("Cache-Control", "public, max-age=3600, s-maxage=7200"); // 1hr users, 2hr CDN
     response.headers.set("X-Prerendered", "false");
-    response.headers.set("X-Bot-Detected", "false");
+    response.headers.set("X-Bot-Detected", String(isBot));
 
     // Add performance headers
     response.headers.set("X-Content-Type-Options", "nosniff");
@@ -58,7 +65,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Pre-render service failed - fall back to normal rendering
-  const response = NextResponse.next();
+  const response = NextResponse.next({ request: { headers: requestHeaders } });
   response.headers.set("X-Prerendered", "false");
   response.headers.set("X-Bot-Detected", "true");
   response.headers.set("Cache-Control", "public, max-age=3600, s-maxage=3600");
