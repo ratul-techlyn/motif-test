@@ -1,0 +1,17 @@
+/* Template 4: numbered h2 sections ("01 —", "02 —", ...) */
+.numbered {
+  counter-reset: section;
+}
+
+.numbered h2 {
+  counter-increment: section;
+}
+
+.numbered h2::before {
+  content: counter(section, decimal-leading-zero);
+  display: block;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+  letter-spacing: 0.2em;
+  color: #f65516;
+}

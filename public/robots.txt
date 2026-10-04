@@ -43,8 +43,10 @@ Disallow: /server-error
 Disallow: /wp-json/
 Disallow: /wp-admin/
 Disallow: /cgi-bin/
+Disallow: /admin/
 Disallow: /*?*
 
 Allow: /childs/wp-content/uploads/
 
 Sitemap: https://wemotif.com/motif-sitemap.xml
+Sitemap: https://wemotif.com/blog-sitemap.xml

@@ -14,6 +14,20 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // /admin/* only redirects to the Strapi admin: no prerender, no caching
+  if (request.nextUrl.pathname.startsWith("/admin")) {
+    const response = NextResponse.next();
+    response.headers.set("Cache-Control", "no-store");
+    return response;
+  }
+
+  // Blog draft preview (Next.js draft mode cookie): never cache or prerender draft content
+  if (request.cookies.has("__prerender_bypass")) {
+    const response = NextResponse.next();
+    response.headers.set("Cache-Control", "private, no-store");
+    return response;
+  }
+
   // Tell the layout whether this is a bot (read as `x-is-bot` in app/(public)/layout.tsx).
   // Includes the pre-render service's own headless browser, so its snapshot skips the loading animation.
   const isBot = !!request.headers.get("x-render-request") || isBotRequest(request);

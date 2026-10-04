@@ -199,3 +199,21 @@ Both builds used the same temporary metadata rename.
 - **Incident:** an earlier build attempt in the project folder overwrote `.next` while `npm run dev` was running, and the dev server started returning 500. **Fix:** stop the dev server, delete `.next`, and run `npm run dev` again.
 - **Revert:** `git checkout -- "src/app/(public)/*/page.tsx"`, then delete the `page-client.tsx` files.
 - **Note:** R3 (making these pages true server components to cut JavaScript) is still open. This change only fixes the build.
+
+## [2026-10-04] BLOG-1 — Blog feature (Strapi), separate from the optimisation pass
+- Roadmap: `brain/blog-rm.md`; setup guide: `brain/strapi-setup.md`.
+- New files:
+  - `src/lib/strapi/` (client, queries, types, media, blocks, seo)
+  - `src/components/blog/*`
+  - `src/app/(public)/blog/` (page + `rss.xml`), `src/app/(public)/blogs/**` (pages + 5 templates)
+  - `src/app/api/revalidate`, `src/app/api/preview` (+ `exit`), `src/app/admin/blog`, `src/app/blog-sitemap.xml`
+- Changed files:
+  - `src/components/blog-card.tsx`: rewritten for Strapi data (it was unused).
+  - `next.config.ts`: `images.remotePatterns` for Strapi uploads.
+  - `src/middleware.ts`: `/admin` and draft-mode requests skip prerender and public caching.
+  - `public/robots.txt`: `Disallow: /admin/` and the blog sitemap line.
+  - `.env`: added `STRAPI_URL`, `STRAPI_API_TOKEN`, `STRAPI_WEBHOOK_SECRET`, `PREVIEW_SECRET` (values not logged).
+- Strapi project `D:/MOTIF/strapi/motif-cms`: added `scripts/seed-demo.js` (`--token`, `--webhook`) and `PREVIEW_SECRET` in its `.env`.
+- Existing pages untouched; no visual change outside the new routes.
+- Verification: `npx tsc --noEmit` 0 errors; `npm run build` passes. Visual check of /blog, /blogs, a blog page and all 5 templates at 1440px and 390px (no horizontal overflow). Revalidate/preview routes reject bad secrets; preview redirect only allows /blog(s) paths.
+- Revert: delete the new files/folders above and `git checkout -- src/components/blog-card.tsx next.config.ts src/middleware.ts public/robots.txt`.

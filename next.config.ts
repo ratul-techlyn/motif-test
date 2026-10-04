@@ -48,6 +48,12 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     // Optimised images are cached for 31 days
     minimumCacheTTL: 2678400,
+    // Blog media uploaded through Strapi (see brain/strapi-setup.md)
+    remotePatterns: [
+      { protocol: "https", hostname: "cms.wemotif.com", pathname: "/uploads/**" },
+      { protocol: "http", hostname: "localhost", port: "1337", pathname: "/uploads/**" },
+      { protocol: "http", hostname: "127.0.0.1", port: "1337", pathname: "/uploads/**" },
+    ],
   },
 
   async headers() {

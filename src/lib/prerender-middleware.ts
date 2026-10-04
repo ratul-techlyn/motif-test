@@ -6,11 +6,15 @@ const PRERENDER_URL = process.env.PRERENDER_URL?.replace(/\/+$/, ''); // e.g. ht
 const PRERENDER_API_KEY = process.env.PRERENDER_API_KEY;
 const PRERENDER_TIMEOUT_MS = 25_000; // a cache MISS renders in a headless browser and takes a few seconds
 
-// Crawlers that should receive pre-rendered HTML (from SETUP.md)
-const BOTS = /googlebot|bingbot|yandex|baiduspider|duckduckbot|slurp|applebot|gptbot|chatgpt-user|oai-searchbot|claudebot|claude-web|perplexitybot|ccbot|facebookexternalhit|twitterbot|linkedinbot|slackbot|discordbot|whatsapp|telegrambot/i;
+// Crawlers / AI agents that should receive pre-rendered HTML
 
-// Dev tools and automation that should always get the normal app
-const DEV_TOOLS = /lighthouse|puppeteer|playwright|selenium|webdriver|headless|pagespeed/i;
+const BOTS =
+  /googlebot|google-inspectiontool|googleother|google-cloudvertexbot|bingbot|adidxbot|microsoftpreview|yandex|baiduspider|duckduckbot|slurp|applebot|applebot-extended|gptbot|chatgpt-user|oai-searchbot|oai-adsbot|claudebot|claude-searchbot|claude-user|anthropic-ai|perplexitybot|perplexity-user|ccbot|bytespider|amazonbot|meta-externalagent|facebookbot|twitterbot|linkedinbot|slackbot|discordbot|whatsapp|telegrambot|youbot|cohere-ai|mistralai-user/i;
+
+
+// Dev tools, testing tools and browser automation that should receive
+const DEV_TOOLS =
+  /lighthouse|puppeteer|playwright|selenium|webdriver|headless|pagespeed|gtmetrix|pingdom|webpagetest|chrome-lighthouse|siteaudit/i;
 
 /**
  * Determine if the request should be prerendered based on bot detection
@@ -34,7 +38,7 @@ export function shouldPrerender(request: NextRequest): boolean {
   const userAgent = request.headers.get('user-agent') || '';
 
   if (DEV_TOOLS.test(userAgent)) {
-    return false;
+    return true;
   }
 
   return BOTS.test(userAgent) || isbot(userAgent);
